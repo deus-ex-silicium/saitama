@@ -5,7 +5,7 @@ from flask_socketio import SocketIO
 from flask import jsonify
 from lib.core.device_manager import DeviceManager
 
-app = Flask(__name__, static_url_path='', static_folder='www/')
+app = Flask(__name__, static_url_path='', static_folder='web_app/')
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app)
 
@@ -26,7 +26,6 @@ def handle_message(message):
 @socketio.on('device_attach')
 def handle_message(message):
     logging.debug('[*] device attached')
-
 
 @app.route('/devices')
 def api_devices():
@@ -60,7 +59,6 @@ def api_device_processes():
     logging.debug('[*] Processes: %s' % processes)
     processes_dicts = [{"pid": p.pid, "name": p.name} for p in processes]
     return jsonify(processes_dicts)
-
 
 @app.route('/')
 def root():
