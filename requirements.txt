@@ -1,3 +1,5 @@
 flask-socketio
 flask
 eventlet
+frida
+frida-tools
