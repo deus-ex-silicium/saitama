@@ -1,5 +1,6 @@
 flask-socketio
 flask
+flask-cors
 eventlet
 frida
 frida-tools

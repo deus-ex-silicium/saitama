@@ -3,10 +3,14 @@ import json
 from flask import Flask, render_template, send_from_directory, request
 from flask_socketio import SocketIO
 from flask import jsonify
+from flask_cors import CORS
+
 from lib.core.device_manager import DeviceManager
 
+# refactor below + disable CORS in future when prod ready
 app = Flask(__name__, static_url_path='', static_folder='web_app/')
 app.config['SECRET_KEY'] = 'secret!'
+CORS(app)
 socketio = SocketIO(app)
 
 # https://flask-socketio.readthedocs.io/en/latest/
