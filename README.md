@@ -19,7 +19,7 @@ sudo apt update && sudo apt install --no-install-recommends yarn
 yarn install
 yarn serve
 ```
-Now, the devlopment server will be listening at localhost:8080
+Now, the devlopment server will be listening at localhost:8080  
 3. Install python requirements and run Flask API server:
 ```bash
 pip install -r requirements.txt
