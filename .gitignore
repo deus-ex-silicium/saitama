@@ -22,3 +22,8 @@ htmlcov/
 .coverage
 .coverage.*
 *,cover
+
+# node, yarn and vscode stuff
+node_modules
+yarn.lock
+.vscode

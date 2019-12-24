@@ -16,7 +16,7 @@ socketio = SocketIO(app)
 # https://flask-socketio.readthedocs.io/en/latest/
 
 @socketio.on('register')
-def handle_message(message):
+def handle_register(message):
     device_manager = DeviceManager()
     devices = device_manager.get_devices()
     processes = device_manager.get_processes(devices[2])
@@ -29,7 +29,7 @@ def handle_message(message):
     logging.debug('[*] client message: ' + message)
 
 @socketio.on('device_attach')
-def handle_message(message):
+def handle_attach(message):
     logging.debug('[*] device attached')
 
 @app.route('/api/v1/devices')
@@ -81,4 +81,6 @@ def root():
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
-    socketio.run(app)
+    port = 5000
+    logging.info(f'[*] Started flask server on {port}')
+    socketio.run(app, port=port)
