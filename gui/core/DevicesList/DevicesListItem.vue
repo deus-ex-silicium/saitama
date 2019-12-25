@@ -1,8 +1,7 @@
 <template>
   <li class="devices-list-item">
     <router-link class="router-link" v-bind:to="'/device/' + device.id + '/'">
-      <CellphoneAndroidIcon v-if="device.type === 'usb'" :size="36" />
-      <CellphoneIcon v-else :size="36" />
+      <device-icon :type=device.type size="36" />
       <br>
       {{ device.name }}
     </router-link>
@@ -10,18 +9,16 @@
 </template>
 
 <script>
-import CellphoneAndroidIcon from 'vue-material-design-icons/CellphoneAndroid.vue';
-import CellphoneIcon from 'vue-material-design-icons/Cellphone.vue';
+import DeviceIcon from '../DeviceIcon/DeviceIcon.vue'
 
 export default {
   name: "devices-list-item",
-  components: {
-    CellphoneAndroidIcon,
-    CellphoneIcon
-  },
   props: ['device'],
+  components: {
+    DeviceIcon
+  }
 };
 </script>
 
-<style>
+<style scoped>
 </style>

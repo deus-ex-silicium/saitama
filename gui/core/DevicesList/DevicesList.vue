@@ -1,17 +1,16 @@
 <template>
-                <div id="device-list-component">
-                    <h1>Saitama</h1>
-                    <p>Select a device to be beaten by the Master.</p>
+    <div id="device-list-component">
+        <h1>Saitama</h1>
+        <p>Select a device to be beaten by the Master.</p>
 
-                    <img :src="require('./assets/shiny.jpg')" />
+        <img :src="require('./assets/shiny.jpg')" />
 
-                    <div>
-                        <ul class="device-list-items">
-                            <devices-list-item v-for="device in devices.data" v-bind:key="device.id" v-bind:device="device"
- class="device-list-item" />
-                        </ul>
-                    </div>
-                </div>
+        <div>
+            <ul class="device-list-items">
+                <devices-list-item v-for="device in devices.data" v-bind:key="device.id" v-bind:device="device" class="device-list-item" />
+            </ul>
+        </div>
+    </div>
 </template>
 
 <script>

@@ -2,9 +2,7 @@
   <div id="device-details">
     <div class="row">
       <div class="col-md-2" style="text-align:center">
-
-        <CellphoneAndroidIcon v-if="device.type === 'usb'" :size="54" />
-        <CellphoneIcon v-else :size="54" />
+        <device-icon :type=device.type size="54" />
         <br>
         {{ device.name }}
       </div>
@@ -84,19 +82,13 @@
 
 <script>
 import axios from 'axios'
-import ApplicationsListItem from './ApplicationsListItem.vue'; 
-import CellphoneAndroidIcon from 'vue-material-design-icons/CellphoneAndroid.vue';
-import CellphoneIcon from 'vue-material-design-icons/Cellphone.vue';
-import SettingsIcon from 'vue-material-design-icons/Settings.vue';
+import DeviceIcon from '../DeviceIcon/DeviceIcon.vue'
 
 export default {
   name: "app",
   props: ["id"],
   components: {
-    ApplicationsListItem,
-    CellphoneAndroidIcon,
-    CellphoneIcon,
-    SettingsIcon,
+    DeviceIcon
   },
   data() {
     return {
