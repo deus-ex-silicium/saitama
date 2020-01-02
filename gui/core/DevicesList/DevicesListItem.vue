@@ -1,7 +1,7 @@
 <template>
   <li class="devices-list-item">
     <router-link class="router-link" v-bind:to="'/device/' + device.id + '/'">
-      <device-icon :type=device.type size="36" />
+      <device-icon :type=device.type size=36 />
       <br>
       {{ device.name }}
     </router-link>

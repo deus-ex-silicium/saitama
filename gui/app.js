@@ -21,6 +21,7 @@ const routes = [
 ]
 
 const MainRouter = new Router({
+    mode: 'history',
     routes
 })
 

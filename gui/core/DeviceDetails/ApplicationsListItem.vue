@@ -1,7 +1,7 @@
 <template>
   <li class="application-list-item">
-      <router-link class="router-link" v-bind:to="'/device/' + device.id + '/application/' + application.identifier">
-          {{ application.name }}
+      <router-link class="router-link" :to="'/device/' + device.id + '/application/' + application.identifier">
+          {{ application.name }} {{ application.hasOwnProperty('pid')? "("+application.pid+")": "" }}
       </router-link>
   </li>
 </template>
