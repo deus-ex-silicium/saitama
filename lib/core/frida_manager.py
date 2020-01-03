@@ -1,10 +1,11 @@
 import frida, sys
+from pathlib import Path
 
 
-class DeviceManager:
+class FridaManager:
     def __init__(self):
-        pass
-    
+        self.scripts = {}
+
     def get_devices(self):
         return frida.get_device_manager().enumerate_devices()
     
@@ -38,3 +39,16 @@ class DeviceManager:
         script.on('message', on_message)
         script.load()
         device.resume(pid)
+
+    def get_scripts(self):
+        return [str(x) for x in self.scripts.keys()]
+
+    def delete_script(self, script):
+        del self.scripts[script]
+
+    def load_scripts(self, path):
+        sdir = Path(path)
+        if not sdir.is_dir(): raise OSError("path is not a directory")
+        for script in Path(path).rglob('**/*.js'):
+            content = script.read_text()
+            self.scripts[script.name] = content

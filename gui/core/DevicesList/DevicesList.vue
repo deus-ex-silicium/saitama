@@ -7,7 +7,7 @@
 
         <div>
             <ul class="device-list-items">
-                <devices-list-item v-for="device in devices.data" v-bind:key="device.id" v-bind:device="device" class="device-list-item" />
+                <devices-list-item v-for="device in devices.data" :key="device.id" :device="device" class="device-list-item" />
             </ul>
         </div>
     </div>
@@ -30,7 +30,11 @@ export default {
             mounted() {
                 axios
                     .get('http://localhost:5000/api/v1/devices')
-                    .then(response => this.devices = response)
+                    .then(response => {
+                        this.devices = response;
+                        // TODO: refactor ?
+                        this.devices.data.push({id:'library', name:'Script Library', type:'library'});
+                    })
             },
 }
 </script>

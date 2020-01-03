@@ -7,6 +7,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import App from './App.vue'
 import DevicesListComponent from './core/DevicesList/DevicesList';
 import DeviceDetails from './core/DeviceDetails/DeviceDetails';
+import ScriptLibrary from './core/ScriptLibrary/ScriptLibrary';
 
 Vue.config.productionTip = false
 Vue.use(Router);
@@ -15,6 +16,7 @@ Vue.use(BootstrapVue)
 const routes = [
     { path: '/', name: 'DevicesList', component: DevicesListComponent },
     { path: '/device/:id/', name: 'DeviceDetails', component: DeviceDetails },
+    { path: '/scripts', name: 'ScriptLibrary', component: ScriptLibrary },
     // the below path can be used for specific application analysis endpoint
     //{ path: '/device/:device_id/application/:application_id/', name: 'ApplicationAnalysis', component: ApplicationAnalysisComponent },
     { path: '*', redirect: '/' },

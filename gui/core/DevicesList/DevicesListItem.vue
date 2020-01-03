@@ -1,6 +1,6 @@
 <template>
   <li class="devices-list-item">
-    <router-link class="router-link" v-bind:to="'/device/' + device.id + '/'">
+    <router-link class="router-link" :to="device.type === 'library'?'/scripts':'/device/' + device.id + '/'">
       <device-icon :type=device.type size=36 />
       <br>
       {{ device.name }}

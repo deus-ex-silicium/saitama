@@ -1,11 +1,9 @@
 <template>
-  <div id="device-details">
+  <div id="script-details">
     <div class="row">
       <div class="col-md-2" style="text-align:center">
-        <device-icon :type=device.type size=54 />
-        <br>
-        {{ device.name }}
-        <br>
+        <device-icon type="library" size=54 />
+        <br>Script Library<br>
         <ul class="messages">
           <li v-for="e in exceptions" :key=e.identifier>
             <b-alert variant="danger" show dismissible fade>{{ e.config.url }}<br>{{ e.status }} {{ e.statusText }}:<br> {{ e.data.message }}</b-alert>
@@ -15,27 +13,16 @@
       </div>
       <div class="col-md-6">
           <b-tabs content-class="mt-3">
-          <b-tab title="Installed Applications" active>
-            <ul class="application-list-items">
-              <applications-list-item
-                v-for="app in installed_apps"
-                :key=app.identifier
-                :device=device
-                :application=app
-                class="application-list-item"
-              />
-            </ul>
-          </b-tab>
-          <b-tab title="Running Processes">
-            <ul class="application-list-items">
-              <applications-list-item
-                v-for="app in running_procs"
-                :key=app.identifier
-                :device=device
-                :application=app
-                class="application-list-item"
-              />
-            </ul>
+          <b-tab title="Loaded Scripts" active>
+          <b-form class="mb-2" @submit="onSubmit" inline>
+            <b-form-input class="flex-grow-1" v-model="directory" required placeholder="Enter script directory"/>
+            <b-button class="ml-2" id="submit" type="submit" variant="primary">Submit</b-button>
+          </b-form>
+          <b-list-group>
+            <b-list-group-item v-for="script in loaded" :key=script.identifier>{{ script }}
+              <DeleteIcon class="float-right"  @click="deleteScript(script)" />
+            </b-list-group-item>
+          </b-list-group>
           </b-tab>
         </b-tabs>
       </div>
@@ -90,54 +77,50 @@
 <script>
 import axios from 'axios'
 import DeviceIcon from '../DeviceIcon/DeviceIcon.vue'
-import ApplicationsListItem from './ApplicationsListItem.vue'
 import SettingsIcon from 'vue-material-design-icons/Settings.vue'
+import DeleteIcon from 'vue-material-design-icons/Delete.vue';
+
 
 export default {
   name: "app",
   props: ["id"],
   components: {
     DeviceIcon,
-    ApplicationsListItem,
-    SettingsIcon
+    SettingsIcon,
+    DeleteIcon
   },
   data() {
     return {
-      device: {
-        id: ""
-      },
-      installed_apps: [],
-      running_procs: [],
+      directory: "",
+      loaded: [],
       sidebar_open: false,
       exceptions: []
     };
   },
   mounted() {
-    axios
-      .get(
-        "http://localhost:5000/api/v1/device/details?device_id=" +
-          this.$route.params.id
-      )
-      .catch(error => (this.exceptions.push(error.response)))
-      .then(response => (this.device = response.data));
-    axios
-      .get(
-        "http://localhost:5000/api/v1/device/applications?device_id=" +
-          this.$route.params.id
-      )
-      .catch(error => (this.exceptions.push(error.response)))
-      .then(response => (this.installed_apps = response.data));
-    axios
-      .get(
-        "http://localhost:5000/api/v1/device/processes?device_id=" +
-          this.$route.params.id
-      )
-      .catch(error => (this.exceptions.push(error.response)))
-      .then(response => (this.running_procs = response.data));
+    this.refreshLoaded()
   },
   methods: {
-    toggle() {
-      this.sidebar_open = !this.sidebar_open;
+    toggle(){
+      this.sidebar_open = !this.sidebar_open
+    },
+    refreshLoaded(){
+      axios
+      .get("http://localhost:5000/api/v1/scripts")
+      .catch(error => (this.exceptions.push(error.response)))
+      .then(response => (this.loaded = response.data))
+    },
+    onSubmit(evt){
+      evt.preventDefault()
+      axios.post("http://localhost:5000/api/v1/scripts", {"scriptDir": this.directory})
+      .catch(error => (this.exceptions.push(error.response)))
+      .then(response => this.refreshLoaded())
+      return false
+    },
+    deleteScript(scriptName){
+      axios.post("http://localhost:5000/api/v1/scripts", {"delete": scriptName})
+      .catch(error => (this.exceptions.push(error.response)))
+      .then(response => this.loaded.splice(this.loaded.indexOf(scriptName),1))
     }
   }
 };
@@ -147,7 +130,6 @@ export default {
   .messages {
     list-style-type: none;
     padding: 4%;
-    /* margin: 0; */
   }
   .sidebar {
       height: 100%; /* 100% Full-height */
